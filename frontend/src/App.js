@@ -13,6 +13,8 @@ import { useContext, useEffect, useState } from 'react';
 import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
 import SigninScreen from './screens/SigninScreen';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import SignupScreen from './screens/SignupScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
@@ -60,6 +62,11 @@ function App() {
     };
     fetchCategories();
   }, []);
+
+  function capitalizeFirstLetter(s) {
+    return (s && s[0].toUpperCase() + s.slice(1)) || s
+  }
+
   return (
     <BrowserRouter>
       <div
@@ -159,7 +166,7 @@ function App() {
                   to={`/search?category=${category}`}
                   onClick={() => setSidebarIsOpen(false)}
                 >
-                  <Nav.Link>{category}</Nav.Link>
+                  <Nav.Link>{capitalizeFirstLetter(category)}</Nav.Link>
                 </LinkContainer>
               </Nav.Item>
             ))}
@@ -172,6 +179,8 @@ function App() {
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/search" element={<SearchScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
+              <Route path="/forgotpassword" element={<ForgotPasswordScreen />} />
+              <Route path="/resetpassword/:token" element={<ResetPasswordScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
               <Route
                 path="/profile"

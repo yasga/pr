@@ -163,10 +163,10 @@ export default function ProductListScreen() {
             <thead>
               <tr>
                 <th>ID</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
-                <th>BRAND</th>
+                <th>NOM</th>
+                <th>PRIX</th>
+                <th>CATEGORIE</th>
+                <th>MARQUE</th>
                 <th>ACTIONS</th>
               </tr>
             </thead>
@@ -175,7 +175,7 @@ export default function ProductListScreen() {
                 <tr key={product._id}>
                   <td>{product._id}</td>
                   <td>{product.name}</td>
-                  <td>{product.price}</td>
+                  <td><strong>{product.price} MAD</strong></td>
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>
@@ -184,7 +184,7 @@ export default function ProductListScreen() {
                       variant="light"
                       onClick={() => navigate(`/admin/product/${product._id}`)}
                     >
-                      Edit
+                      Modifier
                     </Button>
                     &nbsp;
                     <Button
@@ -192,7 +192,7 @@ export default function ProductListScreen() {
                       variant="light"
                       onClick={() => deleteHandler(product)}
                     >
-                      Delete
+                      Supprimer
                     </Button>
                   </td>
                 </tr>

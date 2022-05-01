@@ -90,9 +90,9 @@ export default function UserListScreen() {
   return (
     <div>
       <Helmet>
-        <title>Users</title>
+        <title>Utilisateurs</title>
       </Helmet>
-      <h1>Users</h1>
+      <h1>Utilisateurs</h1>
 
       {loadingDelete && <LoadingBox></LoadingBox>}
       {loading ? (
@@ -104,9 +104,9 @@ export default function UserListScreen() {
           <thead>
             <tr>
               <th>ID</th>
-              <th>NAME</th>
+              <th>NOM</th>
               <th>EMAIL</th>
-              <th>IS ADMIN</th>
+              <th>EST ADMIN</th>
               <th>ACTIONS</th>
             </tr>
           </thead>
@@ -123,7 +123,7 @@ export default function UserListScreen() {
                     variant="light"
                     onClick={() => navigate(`/admin/user/${user._id}`)}
                   >
-                    Edit
+                    Modifier
                   </Button>
                   &nbsp;
                   <Button
@@ -131,7 +131,7 @@ export default function UserListScreen() {
                     variant="light"
                     onClick={() => deleteHandler(user)}
                   >
-                    Delete
+                    Supprimer
                   </Button>
                 </td>
               </tr>

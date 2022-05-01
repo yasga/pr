@@ -8,6 +8,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Rating from '../components/Rating';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
@@ -16,6 +17,7 @@ import { getError } from '../utils';
 import { Store } from '../Store';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { toast } from 'react-toastify';
+import { LinkContainer } from 'react-router-bootstrap'
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -39,6 +41,12 @@ const reducer = (state, action) => {
 };
 
 function ProductScreen() {
+
+  function capitalizeFirstLetter(s) {
+    return (s && s[0].toUpperCase() + s.slice(1)) || s
+  }
+ 
+
   let reviewsRef = useRef();
 
   const [rating, setRating] = useState(0);
@@ -67,6 +75,8 @@ function ProductScreen() {
     };
     fetchData();
   }, [slug]);
+
+  const categoryProduct = capitalizeFirstLetter(product.category);
 
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
@@ -123,6 +133,15 @@ function ProductScreen() {
     <MessageBox variant="danger">{error}</MessageBox>
   ) : (
     <div>
+      <Breadcrumb>
+        <LinkContainer to="/">
+          <Breadcrumb.Item>Acceuil</Breadcrumb.Item>
+        </LinkContainer>
+        <LinkContainer to={`/search?category=${product.category}`}>
+          <Breadcrumb.Item>{categoryProduct}</Breadcrumb.Item>
+        </LinkContainer>
+        <Breadcrumb.Item active>{product.name}</Breadcrumb.Item>
+      </Breadcrumb>
       <Row>
         <Col md={6}>
           <img
@@ -145,7 +164,7 @@ function ProductScreen() {
                 numReviews={product.numReviews}
               ></Rating>
             </ListGroup.Item>
-            <ListGroup.Item>Pirce : ${product.price}</ListGroup.Item>
+            <ListGroup.Item>Prix : ${product.price}</ListGroup.Item>
             <ListGroup.Item>
               <Row xs={1} md={2} className="g-2">
                 {[product.image, ...product.images].map((x) => (
@@ -165,7 +184,7 @@ function ProductScreen() {
               </Row>
             </ListGroup.Item>
             <ListGroup.Item>
-              Description:
+              Déscription:
               <p>{product.description}</p>
             </ListGroup.Item>
           </ListGroup>
@@ -176,18 +195,18 @@ function ProductScreen() {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col>Price:</Col>
+                    <Col>Prix:</Col>
                     <Col>${product.price}</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Status:</Col>
+                    <Col>Statut:</Col>
                     <Col>
                       {product.countInStock > 0 ? (
-                        <Badge bg="success">In Stock</Badge>
+                        <Badge bg="success">En Stock</Badge>
                       ) : (
-                        <Badge bg="danger">Unavailable</Badge>
+                        <Badge bg="danger">Indisponible</Badge>
                       )}
                     </Col>
                   </Row>
@@ -197,7 +216,7 @@ function ProductScreen() {
                   <ListGroup.Item>
                     <div className="d-grid">
                       <Button onClick={addToCartHandler} variant="primary">
-                        Add to Cart
+                      Ajouter au panier
                       </Button>
                     </div>
                   </ListGroup.Item>
@@ -208,10 +227,10 @@ function ProductScreen() {
         </Col>
       </Row>
       <div className="my-3">
-        <h2 ref={reviewsRef}>Reviews</h2>
+        <h2 ref={reviewsRef}>Commentaires</h2>
         <div className="mb-3">
           {product.reviews.length === 0 && (
-            <MessageBox>There is no review</MessageBox>
+            <MessageBox>Pas de commentaires</MessageBox>
           )}
         </div>
         <ListGroup>
@@ -227,19 +246,19 @@ function ProductScreen() {
         <div className="my-3">
           {userInfo ? (
             <form onSubmit={submitHandler}>
-              <h2>Write a customer review</h2>
+              <h2>Rédiger un avis client</h2>
               <Form.Group className="mb-3" controlId="rating">
-                <Form.Label>Rating</Form.Label>
+                <Form.Label>Notes</Form.Label>
                 <Form.Select
                   aria-label="Rating"
                   value={rating}
                   onChange={(e) => setRating(e.target.value)}
                 >
-                  <option value="">Select...</option>
-                  <option value="1">1- Poor</option>
-                  <option value="2">2- Fair</option>
-                  <option value="3">3- Good</option>
-                  <option value="4">4- Very good</option>
+                  <option value="">Selectionnez...</option>
+                  <option value="1">1- mauvais</option>
+                  <option value="2">2- Équitable</option>
+                  <option value="3">3- Bien</option>
+                  <option value="4">4- Trés bien</option>
                   <option value="5">5- Excelent</option>
                 </Form.Select>
               </Form.Group>
@@ -258,18 +277,18 @@ function ProductScreen() {
 
               <div className="mb-3">
                 <Button disabled={loadingCreateReview} type="submit">
-                  Submit
+                  Envoyer
                 </Button>
                 {loadingCreateReview && <LoadingBox></LoadingBox>}
               </div>
             </form>
           ) : (
             <MessageBox>
-              Please{' '}
+              S'il vous plaît{' '}
               <Link to={`/signin?redirect=/product/${product.slug}`}>
-                Sign In
+                Se connecter
               </Link>{' '}
-              to write a review
+              pour écrire un avis
             </MessageBox>
           )}
         </div>

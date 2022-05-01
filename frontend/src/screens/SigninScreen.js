@@ -1,5 +1,6 @@
 import Axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Row, Col } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -44,33 +45,47 @@ export default function SigninScreen() {
   return (
     <Container className="small-container">
       <Helmet>
-        <title>Sign In</title>
+        <title>Se connecter</title>
       </Helmet>
-      <h1 className="my-3">Sign In</h1>
+      <h1 className="my-3">Se connecter</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group className="mb-3" controlId="email">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
+            placeholder="Entrer votre email"
+            value={email}
             required
             onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Mot de passe</Form.Label>
           <Form.Control
             type="password"
+            placeholder="Entrer votre mot de passe"
+            value={password}
             required
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
         <div className="mb-3">
-          <Button type="submit">Sign In</Button>
-        </div>
-        <div className="mb-3">
-          New customer?{' '}
-          <Link to={`/signup?redirect=${redirect}`}>Create your account</Link>
-        </div>
+          <Button type="submit">Connexion</Button>
+        </div>     
+        <Row className="py-3 d-block">
+        <Col>
+          Besoin d'aide ?{' '}
+          <Link to={`/forgotpassword?redirect=${redirect}`}>
+            Mot de passe oublié
+          </Link>
+        </Col>
+        <Col className="my-2">
+          Nouveau client ?{' '}
+          <Link to={`/signup?redirect=${redirect}`}>
+            S'inscrire
+          </Link>
+        </Col>
+      </Row>
       </Form>
     </Container>
   );

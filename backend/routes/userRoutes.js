@@ -2,7 +2,9 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
-import { isAuth, isAdmin, generateToken } from '../utils.js';
+import { isAuth, isAdmin, generateToken, sendEmail } from '../utils.js';
+import crypto from 'crypto';
+
 
 const userRouter = express.Router();
 
@@ -104,6 +106,76 @@ userRouter.post(
     });
   })
 );
+
+userRouter.post(
+  '/forgotpassword',
+  expressAsyncHandler(async (req, res) => { 
+    const { email } = req.body
+    const user = await User.findOne({ email })
+    if (!user) {
+      res.status(401)
+      throw new Error('User not found!')
+    }
+  
+    const resetToken = user.createPasswordResetToken()
+    await user.save()
+  
+    const resetURL = `${req.protocol}://${req.get(
+      'host',
+    )}/resetpassword/${resetToken}`
+  
+    const message = `Mot de passe oublié? Créez un nouveau mot de passe pour votre compte en visitant ce URL: ${resetURL}.\nSi vous n'avez pas oublié votre mot de passe, veuillez ignorer cet e-mail !`
+  
+    try {
+      await sendEmail({
+        email: user.email,
+        subject: 'Votre jeton de réinitialisation de mot de passe (valable pour 10 minutes)',
+        message,
+      })
+  
+      res.status(200).json({
+        status: 'success',
+        message: 'Token sent to email!',
+      })
+    } catch (error) {
+      user.passwordResetToken = undefined
+      user.passwordResetExpires = undefined
+      await user.save()
+      res.status(500)
+      throw new Error('Error sending email!')
+    }
+  })
+);
+
+userRouter.patch(
+  '/resetpassword/:token',
+  expressAsyncHandler(async (req, res) => {
+    
+  // decrypt token
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex')
+
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpires: { $gt: Date.now() },
+  })
+  if (user) {
+    console.log("user with reset pass token found ");
+    user.password = bcrypt.hashSync(req.body.password)
+    user.passwordResetToken = undefined
+    user.passwordResetExpires = undefined
+    await user.save()
+    res.status(200).json({
+      status: 'success',
+      message: 'Password changed successfully',
+    })
+  } else {
+    res.status(400)
+    throw new Error('Token is invalid or has expired')
+  }
+}));
 
 userRouter.put(
   '/profile',

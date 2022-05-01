@@ -103,7 +103,7 @@ export default function UserEditScreen() {
       ) : (
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>Nom</Form.Label>
             <Form.Control
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -131,7 +131,7 @@ export default function UserEditScreen() {
 
           <div className="mb-3">
             <Button disabled={loadingUpdate} type="submit">
-              Update
+              Mettre à jour
             </Button>
             {loadingUpdate && <LoadingBox></LoadingBox>}
           </div>
