@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
 import { React, useState, useReducer  } from 'react';
-//import { Store } from '../Store';
+import '../index.css';
 import { getError } from '../utils';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
@@ -72,12 +72,20 @@ export default function ResetPasswordScreen() {
     }
   };
 
+  function changeBackground(e) {
+    e.target.style.background = '#121212';
+  }
+
+  function returnBackground(e) {
+    e.target.style.background = 'black';
+  }
+
   return (
     <Container className="small-container">
       <Helmet>
-        <title>réinitialiser le mot de passe</title>
+        <title>Réinitialiser le mot de passe</title>
       </Helmet>
-      <h1 className="my-3">réinitialiser le mot de passe</h1>
+      <h1 className="h1">Réinitialiser le mot de passe</h1>
 
       {passwordErrorMessage && (
         <MessageBox variant="danger">{passwordErrorMessage}</MessageBox>
@@ -105,7 +113,7 @@ export default function ResetPasswordScreen() {
           />
         </Form.Group>
         <div className="mb-3">
-          <Button type="submit">Enregistrer</Button>
+          <Button onMouseOver={changeBackground} onMouseOut={returnBackground}  className='btn1' type="submit">Enregistrer</Button>
         </div>
       </Form>
     </Container>

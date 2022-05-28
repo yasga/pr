@@ -2,7 +2,7 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
-import { isAuth, isAdmin, generateToken, sendEmail } from '../utils.js';
+import { mailgun ,isAuth, isAdmin, generateToken, sendEmail, emailTemplate } from '../utils.js';
 import crypto from 'crypto';
 
 
@@ -108,6 +108,38 @@ userRouter.post(
 );
 
 userRouter.post(
+  '/mailclient',
+  expressAsyncHandler(async (req, res) => { 
+    const  {email2}  = req.body.email2
+
+    const user = await User.findOne({ email2 })
+  if (!user) {
+    res.status(401)
+    throw new Error('User not found!')
+  }
+  await user.save()
+
+    try {
+       await sendEmail({
+        email: req.body.email2,
+        subject: 'JayShop nouveauté catalogue été 2022',
+        text : 'hi',
+        html : emailTemplate(),
+      })
+      
+      res.status(200).json({
+        status: 'success',
+        message: 'Token sent to email!',
+      })
+    } catch (error) {
+      await user.save()
+      res.status(500)
+      throw new Error('Error wlh la tsifet ')
+    }
+  })
+);
+
+userRouter.post(
   '/forgotpassword',
   expressAsyncHandler(async (req, res) => { 
     const { email } = req.body
@@ -124,7 +156,7 @@ userRouter.post(
       'host',
     )}/resetpassword/${resetToken}`
   
-    const message = `Mot de passe oublié? Créez un nouveau mot de passe pour votre compte en visitant ce URL: ${resetURL}.\nSi vous n'avez pas oublié votre mot de passe, veuillez ignorer cet e-mail !`
+    const message = `Mot de passe oublié? Créez un nouveau mot de passe pour votre compte en visitant ce URL: ${resetURL} \nSi vous n'avez pas oublié votre mot de passe, veuillez ignorer cet e-mail !`
   
     try {
       await sendEmail({
@@ -132,7 +164,7 @@ userRouter.post(
         subject: 'Votre jeton de réinitialisation de mot de passe (valable pour 10 minutes)',
         message,
       })
-  
+      
       res.status(200).json({
         status: 'success',
         message: 'Token sent to email!',
@@ -146,6 +178,7 @@ userRouter.post(
     }
   })
 );
+
 
 userRouter.patch(
   '/resetpassword/:token',

@@ -28,14 +28,23 @@ export default function PaymentMethodScreen() {
     localStorage.setItem('paymentMethod', paymentMethodName);
     navigate('/placeorder');
   };
+
+  function changeBackground(e) {
+    e.target.style.background = '#121212';
+  }
+
+  function returnBackground(e) {
+    e.target.style.background = 'black';
+  }
   return (
     <div>
       <CheckoutSteps step1 step2 step3></CheckoutSteps>
       <div className="container small-container">
         <Helmet>
-          <title>Mode de paiement</title>
+          <title >Mode de paiement</title>
         </Helmet>
-        <h1 className="my-3">Mode de paiement</h1>
+        <br></br>
+        <h1 className='h1'>Mode De Paiement</h1>
         <Form onSubmit={submitHandler}>
           <div className="mb-3">
             <Form.Check
@@ -58,7 +67,7 @@ export default function PaymentMethodScreen() {
             />
           </div>
           <div className="mb-3">
-            <Button type="submit">Continuer</Button>
+            <Button type="submit" onMouseOver={changeBackground} onMouseOut={returnBackground}  className='btn1'>Continuer</Button>
           </div>
         </Form>
       </div>

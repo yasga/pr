@@ -81,106 +81,133 @@ export default function PlaceOrderScreen() {
     }
   }, [cart, navigate]);
 
+  function MouseOver(event) {
+    event.target.style.color = 'black';
+    
+  }
+  function MouseOut(event){
+    event.target.style.color="rgb(135, 122, 122)";
+  }
+  function changeBackground(e) {
+    e.target.style.color = '#121212';
+  }
+
+  function returnBackground(e) {
+    e.target.style.color= '#494848';
+  }
+
+  function changeBackground1(e) {
+    e.target.style.background = '#121212';
+  }
+
+  function returnBackground1(e) {
+    e.target.style.background = 'black';
+  }
+
   return (
     <div>
       <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
       <Helmet>
         <title>Aperçu de la commande</title>
       </Helmet>
-      <h1 className="my-3">Aperçu de la commande</h1>
+      <br></br>
+      <h1 className='h1'>Aperçu De La Commande</h1>
+      <br></br><br></br>
       <Row>
         <Col md={8}>
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Livraison</Card.Title>
+              <Card.Title className='f1'>Livraison</Card.Title>
               <Card.Text>
                 <strong>Nom:</strong> {cart.shippingAddress.fullName} <br />
                 <strong>Adresse: </strong> {cart.shippingAddress.address},
                 {cart.shippingAddress.city}, {cart.shippingAddress.postalCode},
                 {cart.shippingAddress.country}
               </Card.Text>
-              <Link to="/shipping">Edit</Link>
+              <Link to="/shipping" className='link2' onMouseOver={MouseOver} onMouseOut={MouseOut}>Modifier</Link>
             </Card.Body>
           </Card>
 
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Paiement</Card.Title>
+              <Card.Title className='f1'>Payer</Card.Title>
               <Card.Text>
                 <strong>Méthode:</strong> {cart.paymentMethod}
               </Card.Text>
-              <Link to="/payment">Modifier</Link>
+              <Link to="/payment" className='link2' onMouseOver={MouseOver} onMouseOut={MouseOut}>Modifier</Link>
             </Card.Body>
           </Card>
 
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Articles</Card.Title>
+              <Card.Title className='f1'>Articles</Card.Title>
               <ListGroup variant="flush">
                 {cart.cartItems.map((item) => (
                   <ListGroup.Item key={item._id}>
                     <Row className="align-items-center">
-                      <Col md={6}>
+                      <Col md={6} >
                         <img
                           src={item.image}
                           alt={item.name}
                           className="img-fluid rounded img-thumbnail"
                         ></img>{' '}
-                        <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                        <Link to={`/product/${item.slug}`} className="link1" onMouseOver={changeBackground} onMouseOut={returnBackground}>{item.name}</Link>
                       </Col>
                       <Col md={3}>
-                        <span>{item.quantity}</span>
+                        <span className='p'>{item.quantity}</span>
                       </Col>
-                      <Col md={3}>${item.price}</Col>
+                      <Col md={3} className='p'>{item.price} DH</Col>
                     </Row>
                   </ListGroup.Item>
                 ))}
               </ListGroup>
-              <Link to="/cart">Modifier</Link>
+              <Link to="/cart" className='link2' onMouseOver={MouseOver} onMouseOut={MouseOut}>Modifier</Link>
             </Card.Body>
           </Card>
         </Col>
         <Col md={4}>
           <Card>
             <Card.Body>
-              <Card.Title>Récapitulatif de la commande</Card.Title>
+              <Card.Title className='f1'>Récapitulatif de la commande</Card.Title>
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col>Articles</Col>
-                    <Col>${cart.itemsPrice.toFixed(2)}</Col>
+                    <Col className='list'>Articles</Col>
+                    <Col>{cart.itemsPrice.toFixed(2)}DH</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Livraison</Col>
-                    <Col>${cart.shippingPrice.toFixed(2)}</Col>
+                    <Col className='list'>Livraison</Col>
+                    <Col>{cart.shippingPrice.toFixed(2)}DH</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Taxe</Col>
-                    <Col>${cart.taxPrice.toFixed(2)}</Col>
+                    <Col className='list'>Taxe</Col>
+                    <Col>{cart.taxPrice.toFixed(2)}DH</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
                     <Col>
-                      <strong> Total de la commande</strong>
+                      <strong> Total De La Commande</strong>
                     </Col>
                     <Col>
-                      <strong>${cart.totalPrice.toFixed(2)}</strong>
+                      <strong>{cart.totalPrice.toFixed(2)}DH</strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <div className="d-grid">
                     <Button
+                    onMouseOver={changeBackground1} onMouseOut={returnBackground1}
+                    className='btn'
                       type="button"
                       onClick={placeOrderHandler}
                       disabled={cart.cartItems.length === 0}
                     >
-                      Livrer la commande
+                      Passer La commande
                     </Button>
                   </div>
                   {loading && <LoadingBox></LoadingBox>}

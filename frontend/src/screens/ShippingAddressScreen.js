@@ -56,6 +56,21 @@ export default function ShippingAddressScreen() {
   useEffect(() => {
     ctxDispatch({ type: 'SET_FULLBOX_OFF' });
   }, [ctxDispatch, fullBox]);
+  function MouseOver(event) {
+    event.target.style.color = 'black';
+  }
+  function MouseOut(event){
+    event.target.style.color="#494848";
+  }
+
+  function changeBackground(e) {
+    e.target.style.background = '#121212';
+  }
+
+  function returnBackground(e) {
+    e.target.style.background = 'black';
+  }
+
 
   return (
     <div>
@@ -64,11 +79,12 @@ export default function ShippingAddressScreen() {
       </Helmet>
 
       <CheckoutSteps step1 step2></CheckoutSteps>
+      <br></br>
       <div className="container small-container">
-        <h1 className="my-3">Adresse de livraison</h1>
+        <h1 className='h1'>Adresse De Livraison</h1>
         <Form onSubmit={submitHandler}>
           <Form.Group className="mb-3" controlId="fullName">
-            <Form.Label>Nom et Prénom</Form.Label>
+            <Form.Label>Nom complet</Form.Label>
             <Form.Control
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
@@ -92,7 +108,7 @@ export default function ShippingAddressScreen() {
             />
           </Form.Group>
           <Form.Group className="mb-3" controlId="postalCode">
-            <Form.Label>Code postal</Form.Label>
+            <Form.Label>Code Postal </Form.Label>
             <Form.Control
               value={postalCode}
               onChange={(e) => setPostalCode(e.target.value)}
@@ -109,12 +125,13 @@ export default function ShippingAddressScreen() {
           </Form.Group>
           <div className="mb-3">
             <Button
+            onMouseOver={MouseOver} onMouseOut={MouseOut} className='link'
               id="chooseOnMap"
               type="button"
               variant="light"
               onClick={() => navigate('/map')}
             >
-              Choisissez l'emplacement sur la carte
+              Choisir la localisation sur le map
             </Button>
             {shippingAddress.location && shippingAddress.location.lat ? (
               <div>
@@ -122,12 +139,12 @@ export default function ShippingAddressScreen() {
                 LNG:{shippingAddress.location.lng}
               </div>
             ) : (
-              <div>Pas d'emplacement</div>
+              <div>Aucune localisation</div>
             )}
           </div>
 
           <div className="mb-3">
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" onMouseOver={changeBackground} onMouseOut={returnBackground} className='btn1'>
               Continuer
             </Button>
           </div>

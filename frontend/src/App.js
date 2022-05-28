@@ -1,8 +1,11 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+import KommunicateChat from './chat';
 import 'react-toastify/dist/ReactToastify.css';
 import HomeScreen from './screens/HomeScreen';
+import HomeScreen2 from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
+import ToastContainer from 'react-bootstrap/ToastContainer';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
@@ -13,10 +16,10 @@ import { useContext, useEffect, useState } from 'react';
 import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
 import SigninScreen from './screens/SigninScreen';
-import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
-import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import SignupScreen from './screens/SignupScreen';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
@@ -36,10 +39,21 @@ import OrderListScreen from './screens/OrderListScreen';
 import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import MapScreen from './screens/MapScreen';
+import Footer from './components/Footer';
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { fab } from "@fortawesome/free-brands-svg-icons";
+
+library.add(fab, fas);
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { fullBox, cart, userInfo } = state;
+
+  const [showA, setShowA] = useState(true);
+  const toggleShowA = () => setShowA(!showA);
 
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
@@ -63,12 +77,15 @@ function App() {
     fetchCategories();
   }, []);
 
-  function capitalizeFirstLetter(s) {
-    return (s && s[0].toUpperCase() + s.slice(1)) || s
-  }
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
+    
     <BrowserRouter>
+    <div><p className='livraison'>LIVRAISON GRATUITE A PARTIR DE 1000DH</p></div>  
+
+  
+    
       <div
         className={
           sidebarIsOpen
@@ -79,27 +96,32 @@ function App() {
             ? 'site-container d-flex flex-column full-box'
             : 'site-container d-flex flex-column'
         }
-      >
+      >          
         <ToastContainer position="bottom-center" limit={1} />
         <header>
-          <Navbar bg="dark" variant="dark" expand="lg">
+          
+          <Navbar bg="white" variant="light" expand="lg">
             <Container>
+              
               <Button
-                variant="dark"
+                variant="blue"
                 onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
               >
                 <i className="fas fa-bars"></i>
               </Button>
-
+             
               <LinkContainer to="/">
-                <Navbar.Brand>amazona</Navbar.Brand>
+                <Navbar.Brand className="titre" ><img className='logo' src={process.env.PUBLIC_URL + '/logo1.png'}/></Navbar.Brand>
               </LinkContainer>
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                <SearchBox />
+             
+              
+              <Navbar.Toggle aria-controls="basic-navbar-nav" className="justify-content-center" />
+              <Navbar.Collapse id="basic-navbar-nav" className="justify-content-center">
+                <SearchBox  className="searchB"/>
                 <Nav className="me-auto  w-100  justify-content-end">
                   <Link to="/cart" className="nav-link">
-                    Cart
+                    <img src={process.env.PUBLIC_URL + '/panier.png'} height="25px" width="25px" />
+                   
                     {cart.cartItems.length > 0 && (
                       <Badge pill bg="danger">
                         {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
@@ -109,10 +131,10 @@ function App() {
                   {userInfo ? (
                     <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
                       <LinkContainer to="/profile">
-                        <NavDropdown.Item>User Profile</NavDropdown.Item>
+                        <NavDropdown.Item>Profil d'utilisateur</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/orderhistory">
-                        <NavDropdown.Item>Order History</NavDropdown.Item>
+                        <NavDropdown.Item>Historique des commandes</NavDropdown.Item>
                       </LinkContainer>
                       <NavDropdown.Divider />
                       <Link
@@ -120,27 +142,27 @@ function App() {
                         to="#signout"
                         onClick={signoutHandler}
                       >
-                        Sign Out
+                        Deconnexion
                       </Link>
                     </NavDropdown>
                   ) : (
                     <Link className="nav-link" to="/signin">
-                      Sign In
+                      <img src={process.env.PUBLIC_URL + '/user.png'} height="25px" width="25px" />
                     </Link>
                   )}
                   {userInfo && userInfo.isAdmin && (
                     <NavDropdown title="Admin" id="admin-nav-dropdown">
                       <LinkContainer to="/admin/dashboard">
-                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                        <NavDropdown.Item>Tableau de bord</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/products">
-                        <NavDropdown.Item>Products</NavDropdown.Item>
+                        <NavDropdown.Item>Produits</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/orders">
-                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                        <NavDropdown.Item>Commandes</NavDropdown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/users">
-                        <NavDropdown.Item>Users</NavDropdown.Item>
+                        <NavDropdown.Item>Utilisateurs</NavDropdown.Item>
                       </LinkContainer>
                     </NavDropdown>
                   )}
@@ -149,6 +171,8 @@ function App() {
             </Container>
           </Navbar>
         </header>
+        
+
         <div
           className={
             sidebarIsOpen
@@ -156,7 +180,7 @@ function App() {
               : 'side-navbar d-flex justify-content-between flex-wrap flex-column'
           }
         >
-          <Nav className="flex-column text-white w-100 p-2">
+          <Nav className="flex-column w-100 p-2 catego">
             <Nav.Item>
               <strong>Categories</strong>
             </Nav.Item>
@@ -166,7 +190,8 @@ function App() {
                   to={`/search?category=${category}`}
                   onClick={() => setSidebarIsOpen(false)}
                 >
-                  <Nav.Link>{capitalizeFirstLetter(category)}</Nav.Link>
+                  <Nav.Link className="cate">{category}</Nav.Link>
+                  
                 </LinkContainer>
               </Nav.Item>
             ))}
@@ -175,6 +200,7 @@ function App() {
         <main>
           <Container className="mt-3">
             <Routes>
+              <Route path="/mailclient" element={<HomeScreen2 />} />
               <Route path="/product/:slug" element={<ProductScreen />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/search" element={<SearchScreen />} />
@@ -269,13 +295,16 @@ function App() {
                   </AdminRoute>
                 }
               ></Route>
-
               <Route path="/" element={<HomeScreen />} />
             </Routes>
           </Container>
         </main>
+        <div>
+     <KommunicateChat/>
+   </div>
         <footer>
-          <div className="text-center">All rights reserved</div>
+         <Footer />
+         
         </footer>
       </div>
     </BrowserRouter>
@@ -283,3 +312,4 @@ function App() {
 }
 
 export default App;
+  

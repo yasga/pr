@@ -1,0 +1,26 @@
+.img{
+    height: 500px;
+}
+
+.banner {
+  position: relative;
+}
+
+.banner .products-slide {
+height: 580px;
+}
+
+.carousel-indicators li {
+background-color: #f69225;
+}
+
+.banner #overlay {
+  position: absolute;
+  bottom: 20%;
+  left: 10%;
+  background-color: #f69225;
+}
+
+.banner #overlay h3 {
+  font-weight: bolder;
+}

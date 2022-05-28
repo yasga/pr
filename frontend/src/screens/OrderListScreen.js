@@ -8,6 +8,8 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
+import Table  from 'react-bootstrap/Table';
+
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -99,7 +101,7 @@ export default function OrderListScreen() {
       ) : error ? (
         <MessageBox variant="danger">{error}</MessageBox>
       ) : (
-        <table className="table">
+        <Table striped bordered hover responsive className="table-sm">
           <thead>
             <tr>
               <th>ID</th>
@@ -118,12 +120,15 @@ export default function OrderListScreen() {
                 <td>{order.user ? order.user.name : 'DELETED USER'}</td>
                 <td>{order.createdAt.substring(0, 10)}</td>
                 <td>{order.totalPrice.toFixed(2)}</td>
-                <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
-
+                <td>{order.isPaid ? order.paidAt.substring(0, 10) : (
+                      <i className="fas fa-times" style={{ color: 'red' }}></i>
+                    )}</td>
                 <td>
                   {order.isDelivered
                     ? order.deliveredAt.substring(0, 10)
-                    : 'No'}
+                    : (
+                      <i className="fas fa-times" style={{ color: 'red' }}></i>
+                    )}
                 </td>
                 <td>
                   <Button
@@ -147,7 +152,7 @@ export default function OrderListScreen() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </Table>
       )}
     </div>
   );

@@ -7,6 +7,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Form from 'react-bootstrap/Form';
 import Badge from 'react-bootstrap/Badge';
+import Image from 'react-bootstrap/Image';
 import Button from 'react-bootstrap/Button';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Rating from '../components/Rating';
@@ -142,15 +143,11 @@ function ProductScreen() {
         </LinkContainer>
         <Breadcrumb.Item active>{product.name}</Breadcrumb.Item>
       </Breadcrumb>
-      <Row>
-        <Col md={6}>
-          <img
-            className="img-large"
-            src={selectedImage || product.image}
-            alt={product.name}
-          ></img>
+      <Row className="justify-content-center">
+        <Col md={4} lg={5}>
+        <Image src={selectedImage || product.image} alt={product.name} fluid />
         </Col>
-        <Col md={3}>
+        <Col md={4} lg={4}>
           <ListGroup variant="flush">
             <ListGroup.Item>
               <Helmet>
@@ -164,7 +161,13 @@ function ProductScreen() {
                 numReviews={product.numReviews}
               ></Rating>
             </ListGroup.Item>
-            <ListGroup.Item>Prix : ${product.price}</ListGroup.Item>
+            <ListGroup.Item> Prix : {product.price} MAD 
+              
+            </ListGroup.Item>
+            <ListGroup.Item>
+             <strong>Description :</strong>
+              <p>{product.description}</p>
+            </ListGroup.Item>
             <ListGroup.Item>
               <Row xs={1} md={2} className="g-2">
                 {[product.image, ...product.images].map((x) => (
@@ -183,10 +186,6 @@ function ProductScreen() {
                 ))}
               </Row>
             </ListGroup.Item>
-            <ListGroup.Item>
-              Déscription:
-              <p>{product.description}</p>
-            </ListGroup.Item>
           </ListGroup>
         </Col>
         <Col md={3}>
@@ -195,18 +194,23 @@ function ProductScreen() {
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
-                    <Col>Prix:</Col>
-                    <Col>${product.price}</Col>
+                    <Col>Prix</Col>
+                  <Col><h4 className="d-inline"> <strong>{product.price} MAD</strong></h4></Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col>Statut:</Col>
+                    <Col>Statut</Col>
                     <Col>
                       {product.countInStock > 0 ? (
-                        <Badge bg="success">En Stock</Badge>
+                        
+                        <span className="badge rounded-pill bg-success mx-2">
+                        En Stock
+                      </span>  
                       ) : (
-                        <Badge bg="danger">Indisponible</Badge>
+                        <span className="badge rounded-pill bg-danger mx-2">
+                          Indisponible
+                        </span>
                       )}
                     </Col>
                   </Row>

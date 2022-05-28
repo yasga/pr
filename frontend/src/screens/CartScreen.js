@@ -20,7 +20,7 @@ export default function CartScreen() {
   const updateCartHandler = async (item, quantity) => {
     const { data } = await axios.get(`/api/products/${item._id}`);
     if (data.countInStock < quantity) {
-      window.alert('Sorry. Product is out of stock');
+      window.alert('Désolé. Le produit est en rupture de stock');
       return;
     }
     ctxDispatch({
@@ -36,19 +36,48 @@ export default function CartScreen() {
     navigate('/signin?redirect=/shipping');
   };
 
+  function changeBackground(e) {
+    e.target.style.color = '#121212';
+  }
+
+  function returnBackground(e) {
+    e.target.style.color = '#494848';
+  }
+  function MouseOver(event) {
+    event.target.style.background = 'black';
+  }
+  function MouseOut(event){
+    event.target.style.background="#121212";
+  }
+
   return (
     <div>
       <Helmet>
         <title>Panier</title>
       </Helmet>
-      <h1>Panier</h1>
+      <br></br><br></br>
+      <h1 className='title'>Résumé De L'article( {cartItems.reduce((a, c) => a + c.quantity, 0)}{' '})</h1>
+      <br></br><br></br>
+      <Col md={8}>
+      <ListGroup horizontal>
+       
+      <Col className='a' md={4}>Articles(s)</Col>
+      <Col className='a' md={3}>Quantité(s)</Col>
+      <Col className='a' md={3}>Prix</Col>
+      <Col className='a' md={2}>Effacer</Col>
+     
+      </ListGroup>
+      </Col>
+      <br></br>
       <Row>
         <Col md={8}>
           {cartItems.length === 0 ? (
             <MessageBox>
-              Le panier est vide. <Link to="/">Voir les produits</Link>
+              Le panier est vide. <Link className="link1" onMouseOver={changeBackground} onMouseOut={returnBackground}  to="/">Aller faire les courses</Link>
             </MessageBox>
           ) : (
+            
+
             <ListGroup>
               {cartItems.map((item) => (
                 <ListGroup.Item key={item._id}>
@@ -58,9 +87,13 @@ export default function CartScreen() {
                         src={item.image}
                         alt={item.name}
                         className="img-fluid rounded img-thumbnail"
+                        
                       ></img>{' '}
-                      <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                      
+                      <Link  to={`/product/${item.slug}`} className="link1" onMouseOver={changeBackground} onMouseOut={returnBackground} >{item.name}</Link>
+                      
                     </Col>
+                    
                     <Col md={3}>
                       <Button
                         onClick={() =>
@@ -82,9 +115,9 @@ export default function CartScreen() {
                         <i className="fas fa-plus-circle"></i>
                       </Button>
                     </Col>
-                    <Col md={3}>${item.price}</Col>
+                    <Col md={3} className="p">{item.price}DH</Col>
                     <Col md={2}>
-                      <Button
+                      <Button className='b'
                         onClick={() => removeItemHandler(item)}
                         variant="light"
                       >
@@ -102,21 +135,23 @@ export default function CartScreen() {
             <Card.Body>
               <ListGroup variant="flush">
                 <ListGroup.Item>
-                  <h3>
-                    Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
-                    items) : $
-                    {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
-                  </h3>
+                  <div className='f1'>Résumé De Votre Commande</div><br></br>
+                  <div className='f2'>
+                   Subtotal: 
+                   <span className='f3' >  {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)} DH </span> 
+                  </div>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <div className="d-grid">
                     <Button
+                    onMouseOver={MouseOver} onMouseOut={MouseOut}
+                    className='btn'
                       type="button"
                       variant="primary"
                       onClick={checkoutHandler}
                       disabled={cartItems.length === 0}
                     >
-                      Passer la commande
+                      Payer
                     </Button>
                   </div>
                 </ListGroup.Item>

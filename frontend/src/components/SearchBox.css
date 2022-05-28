@@ -1,0 +1,15 @@
+.inpSearch{
+    width:500px;
+}
+.searchS{
+    border: 1px solid rgba(110, 107, 107, 0.495);
+    border-radius: 25px;
+  
+}.btnS{
+    border: 1px solid rgba(110, 107, 107, 0.495);
+    border-radius: 25px;
+}
+.btnS:hover{
+  
+  background-color: rgb(191, 186, 186);
+}

@@ -4,11 +4,11 @@ import Col from 'react-bootstrap/Col';
 
 export default function CheckoutSteps(props) {
   return (
-    <Row className="checkout-steps">
-      <Col className={props.step1 ? 'active' : ''}>S'identifier</Col>
-      <Col className={props.step2 ? 'active' : ''}>Expédition</Col>
-      <Col className={props.step3 ? 'active' : ''}>Paiement</Col>
+    <Row className="checkout-steps" >
+      <Col className={props.step1 ? 'active' : ''}>Connexion</Col>
+      <Col className={props.step2 ? 'active' : ''}>Livraison</Col>
+      <Col className={props.step3 ? 'active' : ''}>Payer</Col>
       <Col className={props.step4 ? 'active' : ''}>Passer la commande</Col>
     </Row>
   );
-}
+  }

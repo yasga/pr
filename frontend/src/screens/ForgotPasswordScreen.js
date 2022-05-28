@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import {  useState, useReducer } from 'react';
 //import { Store } from '../Store';
 import { getError } from '../utils';
+import '../index.css';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 
@@ -40,7 +41,7 @@ export default function ForgotPasswordScreen() {
     loading: false,
     error: '',
   });
- 
+
   const [email, setEmail] = useState('');
 
   const submitHandler = async (e) => {
@@ -59,12 +60,20 @@ export default function ForgotPasswordScreen() {
     }
   };
 
+  function changeBackground(e) {
+    e.target.style.background = '#121212';
+  }
+
+  function returnBackground(e) {
+    e.target.style.background = 'black';
+  }
+
   return (
     <Container className="small-container">
       <Helmet>
         <title>Assistance du mot de passe</title>
       </Helmet>
-      <h1 className="my-3">Assistance du mot de passe</h1>
+      <h1 className="h1">Assistance du mot de passe</h1>
       <p>Saisissez l'adresse e-mail associée à votre compte.</p>
 
       {error && <MessageBox variant="danger">{error}</MessageBox>}
@@ -82,7 +91,7 @@ export default function ForgotPasswordScreen() {
           />
         </Form.Group>
         <div className="mb-3">
-          <Button type="submit">Continuer</Button>
+          <Button onMouseOver={changeBackground} onMouseOut={returnBackground}  className='btn1' type="submit">Continuer</Button>
         </div>     
       </Form>
     </Container>

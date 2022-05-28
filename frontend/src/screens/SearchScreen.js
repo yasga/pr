@@ -134,7 +134,7 @@ export default function SearchScreen() {
       </Helmet>
       <Row>
         <Col md={3}>
-          <h3>Département</h3>
+          <h3>Catégories</h3>
           <div>
             <ul>
               <li>
@@ -158,7 +158,7 @@ export default function SearchScreen() {
             </ul>
           </div>
           <div>
-            <h3>Price</h3>
+            <h3>Prix</h3>
             <ul>
               <li>
                 <Link

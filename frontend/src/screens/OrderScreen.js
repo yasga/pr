@@ -49,7 +49,6 @@ function reducer(state, action) {
   }
 }
 export default function OrderScreen() {
-  
   const { state } = useContext(Store);
   const { userInfo } = state;
 
@@ -104,11 +103,9 @@ export default function OrderScreen() {
           }
         );
         dispatch({ type: 'PAY_SUCCESS', payload: data });
-        //window.location.reload();
         toast.success('Order is paid');
       } catch (err) {
         dispatch({ type: 'PAY_FAIL', payload: getError(err) });
-        window.location.reload();
         toast.error(getError(err));
       }
     });
@@ -190,21 +187,47 @@ export default function OrderScreen() {
     }
   }
 
+  function MouseOver(event) {
+    event.target.style.color = 'black';
+    
+  }
+  function MouseOut(event){
+    event.target.style.color="rgb(135, 122, 122)";
+  }
+  function changeBackground(e) {
+    e.target.style.color = '#121212';
+  }
+
+  function returnBackground(e) {
+    e.target.style.color= '#494848';
+  }
+
+  function changeBackground1(e) {
+    e.target.style.background = '#121212';
+  }
+
+  function returnBackground1(e) {
+    e.target.style.background = 'black';
+  }
+
+
   return loading ? (
     <LoadingBox></LoadingBox>
   ) : error ? (
     <MessageBox variant="danger">{error}</MessageBox>
   ) : (
     <div>
+      <br></br>
       <Helmet>
         <title>Commande {orderId}</title>
       </Helmet>
-      <h1 className="my-3">Commande {orderId}</h1>
+      <h1 className='h1'>Commande {orderId}</h1>
       <Row>
+        <br></br>
         <Col md={8}>
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Livraison</Card.Title>
+              <Card.Title className='f1'>Livraison</Card.Title>
               <Card.Text>
                 <strong>Nom:</strong> {order.shippingAddress.fullName} <br />
                 <strong>Adresse: </strong> {order.shippingAddress.address},
@@ -216,39 +239,39 @@ export default function OrderScreen() {
                     <a
                       target="_new"
                       href={`https://maps.google.com?q=${order.shippingAddress.location.lat},${order.shippingAddress.location.lng}`}
-                    >
-                      Show On Map
+                      className='link3' onMouseOver={MouseOver} onMouseOut={MouseOut}>
+                      Afficher sur la carte
                     </a>
                   )}
               </Card.Text>
               {order.isDelivered ? (
                 <MessageBox variant="success">
-                  Livré à {order.deliveredAt}
+                  Delivé à {order.deliveredAt}
                 </MessageBox>
               ) : (
-                <MessageBox variant="danger">Pas livré</MessageBox>
+                <MessageBox variant="danger">Non livré</MessageBox>
               )}
             </Card.Body>
           </Card>
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Paiement</Card.Title>
+              <Card.Title className='f1'>Payer</Card.Title>
               <Card.Text>
                 <strong>Méthode:</strong> {order.paymentMethod}
               </Card.Text>
               {order.isPaid ? (
                 <MessageBox variant="success">
-                  Payé à {order.paidAt}
+                  Payer à {order.paidAt}
                 </MessageBox>
               ) : (
-                <MessageBox variant="danger">Not Paid</MessageBox>
+                <MessageBox variant="danger">non payer</MessageBox>
               )}
             </Card.Body>
           </Card>
 
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Articles</Card.Title>
+              <Card.Title className='f1'>Articles</Card.Title>
               <ListGroup variant="flush">
                 {order.orderItems.map((item) => (
                   <ListGroup.Item key={item._id}>
@@ -259,12 +282,12 @@ export default function OrderScreen() {
                           alt={item.name}
                           className="img-fluid rounded img-thumbnail"
                         ></img>{' '}
-                        <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                        <Link to={`/product/${item.slug}`} className="link1" onMouseOver={changeBackground} onMouseOut={returnBackground}>{item.name}</Link>
                       </Col>
                       <Col md={3}>
-                        <span>{item.quantity}</span>
+                        <span className="p" >{item.quantity}</span>
                       </Col>
-                      <Col md={3}>${item.price}</Col>
+                      <Col md={3} className="p">{item.price}DH</Col>
                     </Row>
                   </ListGroup.Item>
                 ))}
@@ -275,24 +298,24 @@ export default function OrderScreen() {
         <Col md={4}>
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Récapitulatif de la commande</Card.Title>
+              <Card.Title className='f1'>Récapitulatif de la commande</Card.Title>
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
                     <Col>Articles</Col>
-                    <Col>${order.itemsPrice.toFixed(2)}</Col>
+                    <Col>{order.itemsPrice.toFixed(2)}DH</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
                     <Col>Livraison</Col>
-                    <Col>${order.shippingPrice.toFixed(2)}</Col>
+                    <Col>{order.shippingPrice.toFixed(2)}DH</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
                     <Col>Taxe</Col>
-                    <Col>${order.taxPrice.toFixed(2)}</Col>
+                    <Col>{order.taxPrice.toFixed(2)}DH</Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -301,7 +324,7 @@ export default function OrderScreen() {
                       <strong> Total de la commande</strong>
                     </Col>
                     <Col>
-                      <strong>${order.totalPrice.toFixed(2)}</strong>
+                      <strong>{order.totalPrice.toFixed(2)}DH</strong>
                     </Col>
                   </Row>
                 </ListGroup.Item>

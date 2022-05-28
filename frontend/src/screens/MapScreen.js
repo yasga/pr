@@ -28,7 +28,7 @@ export default function MapScreen() {
 
   const getUserCurrentLocation = () => {
     if (!navigator.geolocation) {
-      alert('Geolocation os not supported by this browser');
+      alert('Système de géolocalisation non pris en charge par ce navigateur');
     } else {
       navigator.geolocation.getCurrentPosition((position) => {
         setCenter({
@@ -93,7 +93,7 @@ export default function MapScreen() {
         googleAddressId: places[0].id,
       },
     });
-    toast.success('location selected successfully.');
+    toast.success('Emplacement sélectionné avec succès.');
     navigate('/shipping');
   };
   return (

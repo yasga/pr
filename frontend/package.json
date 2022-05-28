@@ -4,6 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.1.1",
+    "@fortawesome/free-solid-svg-icons": "^6.1.1",
+    "@fortawesome/react-fontawesome": "^0.1.18",
     "@paypal/react-paypal-js": "^7.6.0",
     "@react-google-maps/api": "^2.7.0",
     "@testing-library/jest-dom": "^5.16.1",
@@ -16,10 +19,12 @@
     "react-dom": "^17.0.2",
     "react-google-charts": "^4.0.0",
     "react-helmet-async": "^1.2.2",
+    "react-popupbox": "^2.0.9",
     "react-router-bootstrap": "^0.26.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
     "react-toastify": "^8.1.0",
+    "reactjs-popup": "^2.0.5",
     "use-reducer-logger": "^1.0.2",
     "web-vitals": "^2.1.2"
   },

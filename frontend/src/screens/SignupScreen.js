@@ -48,15 +48,30 @@ export default function SignupScreen() {
     }
   }, [navigate, redirect, userInfo]);
 
+  function MouseOver(event) {
+    event.target.style.color = 'black';
+  }
+  function MouseOut(event){
+    event.target.style.color="#494848";
+  }
+
+  function changeBackground(e) {
+    e.target.style.background = '#121212';
+  }
+
+  function returnBackground(e) {
+    e.target.style.background = 'black';
+  }
+
   return (
     <Container className="small-container">
       <Helmet>
-        <title>Sign Up</title>
+        <title>S'inscrire</title>
       </Helmet>
-      <h1 className="my-3">Sign Up</h1>
+      <h1 className='h1'>Nouveau client </h1>
       <Form onSubmit={submitHandler}>
         <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Name</Form.Label>
+          <Form.Label>Nom</Form.Label>
           <Form.Control onChange={(e) => setName(e.target.value)} required />
         </Form.Group>
 
@@ -69,14 +84,14 @@ export default function SignupScreen() {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Mot de passe</Form.Label>
           <Form.Control
             type="password"
             required
             onChange={(e) => setPassword(e.target.value)}
           />
           <Form.Group className="mb-3" controlId="confirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
+            <Form.Label>Confirmer le mot de passe</Form.Label>
             <Form.Control
               type="password"
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -85,11 +100,11 @@ export default function SignupScreen() {
           </Form.Group>
         </Form.Group>
         <div className="mb-3">
-          <Button type="submit">Sign Up</Button>
+          <Button onMouseOver={changeBackground} onMouseOut={returnBackground} className='btn1' type="submit">S'inscrire</Button>
         </div>
         <div className="mb-3">
-          Already have an account?{' '}
-          <Link to={`/signin?redirect=${redirect}`}>Sign-In</Link>
+          Vous êtes déjà membre?{' '}
+          <Link onMouseOver={MouseOver} onMouseOut={MouseOut} className='link' to={`/signin?redirect=${redirect}`}>Authentifier</Link>
         </div>
       </Form>
     </Container>

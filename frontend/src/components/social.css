@@ -1,0 +1,8 @@
+.icon {
+    color: black;
+    margin-left: 20px;
+  }
+  
+  .icon:hover {
+    color: rgba(71, 71, 71, 0.979);
+  }
