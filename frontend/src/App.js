@@ -40,12 +40,13 @@ import UserListScreen from './screens/UserListScreen';
 import UserEditScreen from './screens/UserEditScreen';
 import MapScreen from './screens/MapScreen';
 import Footer from './components/Footer';
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
-
+import ReactGA from 'react-ga';
+  const TRACKING_ID = "UA-216677830-1"; 
+  ReactGA.initialize(TRACKING_ID);
 library.add(fab, fas);
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
       try {
         const { data } = await axios.get(`/api/products/categories`);
         setCategories(data);
+        ReactGA.pageview(window.location.pathname + window.location.search);
       } catch (err) {
         toast.error(getError(err));
       }
