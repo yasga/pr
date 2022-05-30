@@ -51,22 +51,22 @@ const prices = [
 
 export const ratings = [
   {
-    name: '4stars & plus',
+    name: '4stars & up',
     rating: 4,
   },
 
   {
-    name: '3stars & plus',
+    name: '3stars & up',
     rating: 3,
   },
 
   {
-    name: '2stars & plus',
+    name: '2stars & up',
     rating: 2,
   },
 
   {
-    name: '1stars & plus',
+    name: '1stars & up',
     rating: 1,
   },
 ];
@@ -189,7 +189,7 @@ export default function SearchScreen() {
                     to={getFilterUrl({ rating: r.rating })}
                     className={`${r.rating}` === `${rating}` ? 'text-bold' : ''}
                   >
-                    <Rating caption={''} rating={r.rating}></Rating>
+                    <Rating caption={' & up'} rating={r.rating}></Rating>
                   </Link>
                 </li>
               ))}
@@ -198,7 +198,7 @@ export default function SearchScreen() {
                   to={getFilterUrl({ rating: 'all' })}
                   className={rating === 'all' ? 'text-bold' : ''}
                 >
-                  <Rating caption={''} rating={0}></Rating>
+                  <Rating caption={' & up'} rating={0}></Rating>
                 </Link>
               </li>
             </ul>
@@ -218,7 +218,7 @@ export default function SearchScreen() {
                     {query !== 'all' && ' : ' + query}
                     {category !== 'all' && ' : ' + category}
                     {price !== 'all' && ' : Price ' + price}
-                    {rating !== 'all' && ' : Rating ' + rating + ''}
+                    {rating !== 'all' && ' : Rating ' + rating + ' & up'}
                     {query !== 'all' ||
                     category !== 'all' ||
                     rating !== 'all' ||
