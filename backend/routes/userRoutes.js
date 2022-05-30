@@ -84,7 +84,7 @@ userRouter.post(
         return;
       }
     }
-    res.status(401).send({ message: 'Invalid email or password' });
+    res.status(401).send({ message: 'Email ou mot de passe invalide' });
   })
 );
 
@@ -129,12 +129,12 @@ userRouter.post(
       
       res.status(200).json({
         status: 'success',
-        message: 'Token sent to email!',
+        message: 'Email envoyé !',
       })
     } catch (error) {
       await user.save()
       res.status(500)
-      throw new Error('Error wlh la tsifet ')
+      throw new Error('Error')
     }
   })
 );
@@ -167,7 +167,7 @@ userRouter.post(
       
       res.status(200).json({
         status: 'success',
-        message: 'Token sent to email!',
+        message: 'Lien envoyé avec succès',
       })
     } catch (error) {
       user.passwordResetToken = undefined
@@ -202,11 +202,11 @@ userRouter.patch(
     await user.save()
     res.status(200).json({
       status: 'success',
-      message: 'Password changed successfully',
+      message: 'Mot de passe envoyé avec succès',
     })
   } else {
     res.status(400)
-    throw new Error('Token is invalid or has expired')
+    throw new Error('Lien invalide ou expiré')
   }
 }));
 
@@ -231,7 +231,7 @@ userRouter.put(
         token: generateToken(updatedUser),
       });
     } else {
-      res.status(404).send({ message: 'User not found' });
+      res.status(404).send({ message: 'Utilisateur non trouvé' });
     }
   })
 );
