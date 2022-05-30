@@ -36,37 +36,37 @@ const reducer = (state, action) => {
 
 const prices = [
   {
-    name: '$1 to $50',
+    name: '1DH to 50DH',
     value: '1-50',
   },
   {
-    name: '$51 to $200',
+    name: '51DH to 200DH',
     value: '51-200',
   },
   {
-    name: '$201 to $1000',
+    name: '201DH to 1000DH',
     value: '201-1000',
   },
 ];
 
 export const ratings = [
   {
-    name: '4stars & up',
+    name: '4stars & plus',
     rating: 4,
   },
 
   {
-    name: '3stars & up',
+    name: '3stars & plus',
     rating: 3,
   },
 
   {
-    name: '2stars & up',
+    name: '2stars & plus',
     rating: 2,
   },
 
   {
-    name: '1stars & up',
+    name: '1stars & plus',
     rating: 1,
   },
 ];
