@@ -80,7 +80,7 @@ export default function DashboardScreen() {
                       ? summary.orders[0].numOrders
                       : 0}
                   </Card.Title>
-                  <Card.Text>Commandes</Card.Text>
+                  <Card.Text>Nombre des commandes</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
@@ -93,7 +93,7 @@ export default function DashboardScreen() {
                       ? summary.orders[0].totalSales.toFixed(2)
                       : 0}
                   </Card.Title>
-                  <Card.Text>Commandes</Card.Text>
+                  <Card.Text>total des ventes</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
