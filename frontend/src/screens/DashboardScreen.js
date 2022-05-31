@@ -88,10 +88,10 @@ export default function DashboardScreen() {
               <Card>
                 <Card.Body>
                   <Card.Title>
-                    $
+                    
                     {summary.orders && summary.users[0]
                       ? summary.orders[0].totalSales.toFixed(2)
-                      : 0}
+                      : 0} DH
                   </Card.Title>
                   <Card.Text>total des ventes</Card.Text>
                 </Card.Body>
